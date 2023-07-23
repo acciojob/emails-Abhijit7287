@@ -30,51 +30,28 @@ public class Workspace extends Gmail{
         ArrayList<Meeting> curr = new ArrayList<>(calendar);
 
         Collections.sort(curr, Comparator.comparing(Meeting::getStartTime));
-//
-//        ArrayList<Meeting[]> opt= new ArrayList<>();
-//
-//        Meeting [] temp = new Meeting[1];
-//
-//        temp[0] = curr.get(0);
-//
-//        opt.add(temp);
-//
-//        for(Meeting m : curr) {
-//
-//            LocalTime curr_begin = temp[0].getStartTime();
-//            LocalTime curr_end =  temp[0].getEndTime();
-//            LocalTime next_begin =  m.getStartTime();
-//            LocalTime next_end = m.getEndTime();
-//
-//            if(curr_end.compareTo(next_begin) >=0){
-//                int n = curr_end.compareTo(next_end);
-//                if(n>0) {
-//                    temp[0].setEndTime(curr_end);
-//                }else{
-//                    temp[0].setEndTime(next_end);
-//                }
-//            }else{
-//                temp [0] = m;
-//                opt.add(temp);
-//            }
-//        }
-//
-//        return opt.size();
 
+        LocalTime prevS = curr.get(0).getStartTime();
+        LocalTime prevE = curr.get(0).getEndTime();
 
-         int i=0 , j=0 , count=0;
+        int count=0;
 
-         while(j<curr.size()){
+        for(int i=1;i<curr.size();i++){
 
-             Meeting start = curr.get(i);
-             Meeting end = curr.get(j);
+            LocalTime currS = curr.get(i).getStartTime();
+            LocalTime currE = curr.get(i).getEndTime();
 
-             if(start.getEndTime().compareTo(end.getStartTime())<0){
-                 i=j;
-                 count++;
-             }
-             j++;
-         }
+            if(currS.isAfter(prevE)){
+                count++;
+                prevS = currS;
+                prevE = currE;
+            }else{
+                if(prevE.isAfter((currE))){
+                    prevS = currS;
+                    prevE = currE;
+                }
+            }
+        }
 
         return count+1;
 
