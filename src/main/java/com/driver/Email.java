@@ -14,7 +14,16 @@ public class Email {
         return this.emailId;
     }
 
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPassword() {
+
         return this.password;
     }
 
@@ -25,7 +34,7 @@ public class Email {
         // 3. It contains at least one lowercase letter
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
-        if(this.password.equals(oldPassword)){
+        if(oldPassword.equals(this.getPassword()) && newPassword.length()>=8){
 
             if(check(newPassword)==true){
                 this.password = newPassword;
@@ -37,22 +46,18 @@ public class Email {
 
     public boolean check (String newPass){
 
-        if (newPass.length()<8) {
-            return false;
-        }
-
         int Up =0 , Lo =0 , Di =0 , Sp = 0;
 
         for(int i =0;i<newPass.length();i++){
             char ch = newPass.charAt(i);
 
-            if(ch>=65 && ch<=97){
+            if(ch>='A' && ch<='Z'){
                 Up++;
             }
-            else if(ch>=97 && ch<=122){
+            else if(ch>='a' && ch<='z'){
                 Lo++;
             }
-            else if(ch>=48 && ch<=57){
+            else if(ch>='0' && ch<='9'){
                 Di++;
             }
             else{

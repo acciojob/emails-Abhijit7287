@@ -39,9 +39,9 @@ public class Gmail extends Email {
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
         for(Mail m : Inbox){
-            String s = m.message;
+            String s = m.getMessage();
 
-            if(s.equals(message)){
+            if(s.equals(message)==true){
                 Trash.add(m);
                 Inbox.remove(m);
                 break;
@@ -73,20 +73,17 @@ public class Gmail extends Email {
     public int findMailsBetweenDates(Date start, Date end){
         //find number of mails in the inbox which are received between given dates
         //It is guaranteed that start date <= end date
-        int count = 0;
 
-        for(Mail m : Inbox){
-
-            Date d = m.date;
-            int compareStart = d.compareTo(start);
-            int comapareEnd = d.compareTo(end);
-
-            if(comapareEnd==0 || compareStart==0 || (compareStart>0 && comapareEnd<0)){
+        int count=0;
+        for(Mail mail:Inbox)
+        {
+            Date date=mail.getDate();
+            if((date.before(start) && date.after(end)) || (!date.before(start) && !date.after(end))) {
                 count++;
             }
-
         }
         return count;
+
     }
 
     public int getInboxSize(){
