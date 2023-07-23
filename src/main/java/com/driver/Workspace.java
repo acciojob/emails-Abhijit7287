@@ -13,7 +13,7 @@ public class Workspace extends Gmail{
 
     public Workspace(String emailId) {
         // The inboxCapacity is equal to the maximum value an integer can store.
-        super(emailId,2147483647);
+        super(emailId,Integer.MAX_VALUE);
         calendar = new ArrayList<>();
     }
 
@@ -30,36 +30,53 @@ public class Workspace extends Gmail{
         ArrayList<Meeting> curr = new ArrayList<>(calendar);
 
         Collections.sort(curr, Comparator.comparing(Meeting::getStartTime));
+//
+//        ArrayList<Meeting[]> opt= new ArrayList<>();
+//
+//        Meeting [] temp = new Meeting[1];
+//
+//        temp[0] = curr.get(0);
+//
+//        opt.add(temp);
+//
+//        for(Meeting m : curr) {
+//
+//            LocalTime curr_begin = temp[0].getStartTime();
+//            LocalTime curr_end =  temp[0].getEndTime();
+//            LocalTime next_begin =  m.getStartTime();
+//            LocalTime next_end = m.getEndTime();
+//
+//            if(curr_end.compareTo(next_begin) >=0){
+//                int n = curr_end.compareTo(next_end);
+//                if(n>0) {
+//                    temp[0].setEndTime(curr_end);
+//                }else{
+//                    temp[0].setEndTime(next_end);
+//                }
+//            }else{
+//                temp [0] = m;
+//                opt.add(temp);
+//            }
+//        }
+//
+//        return opt.size();
 
-        ArrayList<Meeting[]> opt= new ArrayList<>();
 
-        Meeting [] temp = new Meeting[1];
+         int i=0 , j=0 , count=0;
 
-        temp[0] = curr.get(0);
+         while(j<curr.size()){
 
-        opt.add(temp);
+             Meeting start = curr.get(i);
+             Meeting end = curr.get(j);
 
-        for(Meeting m : curr){
+             if(start.getEndTime().compareTo(end.getStartTime())<0){
+                 i=j;
+                 count++;
+             }
+             j++;
+         }
 
-            LocalTime curr_begin = temp[0].getStartTime();
-            LocalTime curr_end =  temp[0].getEndTime();
-            LocalTime next_begin =  m.getStartTime();
-            LocalTime next_end = m.getEndTime();
-
-            if(curr_end.compareTo(next_begin) >=0){
-                int n = curr_end.compareTo(next_end);
-                if(n>0) {
-                    temp[0].setEndTime(curr_end);
-                }else{
-                    temp[0].setEndTime(next_end);
-                }
-            }else{
-                temp [0] = m;
-                opt.add(temp);
-            }
-        }
-
-        return opt.size();
+        return count+1;
 
     }
 }
